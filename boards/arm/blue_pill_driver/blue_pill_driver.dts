@@ -1,0 +1,76 @@
+/*
+ * Copyright (c) 2023 Quasal
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+#include <st/f1/stm32f103X8.dtsi>
+#include <st/f1/stm32f103c(8-b)tx-pinctrl.dtsi>
+
+/ {
+    model = "blue_pill";
+    compatible = "st,stm32f103";
+
+    chosen {
+        zephyr,sram = &sram0;
+        zephyr,flash = &flash0;
+    };
+};
+
+&clk_hse {
+    clock-frequency = <DT_FREQ_M(8)>;
+    status = "okay";
+};
+
+&pll {
+    mul = <9>;
+    clocks = <&clk_hse>;
+    status = "okay";
+};
+
+&rcc {
+    clocks = <&pll>;
+    clock-frequency = <DT_FREQ_M(72)>;
+    ahb-prescaler = <1>;
+    apb1-prescaler = <2>;
+    apb2-prescaler = <1>;
+    status = "okay";
+};
+
+/ {
+    leds {
+        compatible = "gpio-leds";
+
+        green_led_1: led {
+            gpios = <&gpioc 13 GPIO_ACTIVE_HIGH>;
+            label = "User LED0";
+        };
+    };
+    button {
+        compatible = "gpio-leds";
+        user_button: led {
+            gpios = <&gpioa 5 GPIO_ACTIVE_HIGH>;
+            label = "User LED0";
+        };
+    };
+    aliases {
+        led0 = &green_led_1;
+
+    };
+};
+
+&i2c1 { /* SDA CN5.9=PB9, SCL CN5.10=PB8, ISW CN5.1=D8=PA9 */
+    pinctrl-0 = <&i2c1_scl_pb6 &i2c1_sda_pb7>;
+    pinctrl-names = "default"; 
+	status = "okay";
+    ds3231: ds3231 {
+        compatible = "zephyr,ds3231-ver1";
+        address = <0x68>;
+        status = "okay";
+    };
+};
+
+&gpioc {
+    status = "okay";
+};

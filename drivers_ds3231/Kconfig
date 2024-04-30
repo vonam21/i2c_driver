@@ -1,0 +1,4 @@
+menu "My drivers1"
+rsource "ds3231_driver/Kconfig"
+endmenu
+

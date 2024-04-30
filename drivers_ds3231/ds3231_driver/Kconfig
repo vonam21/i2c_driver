@@ -1,0 +1,17 @@
+menuconfig DS3231 
+    bool "This is my driver gpio"
+    help 
+        this is my driver gpio 
+
+config CHOSEN_DS3231
+    bool "chosen_gpio"
+    select NAM_CONTEXT
+    default y 
+    depends on DT_HAS_ZEPHYR_DS3231_VER1_ENABLED
+    help 
+        Select this to is gpio driver
+
+
+config DS3231
+    bool "chosen i2c"
+
