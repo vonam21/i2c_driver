@@ -20,52 +20,52 @@
 extern "C" {
 #endif
 
-extern void z_impl_get_time(const struct device * dev, unsigned char* data_receive);
+extern void z_impl_get_time(const struct device * device_tree, unsigned char * data_receive);
 
 __pinned_func
-static inline void get_time(const struct device * dev, unsigned char* data_receive)
+static inline void get_time(const struct device * device_tree, unsigned char * data_receive)
 {
 #ifdef CONFIG_USERSPACE
 	if (z_syscall_trap()) {
-		union { uintptr_t x; const struct device * val; } parm0 = { .val = dev };
-		union { uintptr_t x; unsigned char* val; } parm1 = { .val = data_receive };
+		union { uintptr_t x; const struct device * val; } parm0 = { .val = device_tree };
+		union { uintptr_t x; unsigned char * val; } parm1 = { .val = data_receive };
 		(void) arch_syscall_invoke2(parm0.x, parm1.x, K_SYSCALL_GET_TIME);
 		return;
 	}
 #endif
 	compiler_barrier();
-	z_impl_get_time(dev, data_receive);
+	z_impl_get_time(device_tree, data_receive);
 }
 
 #if defined(CONFIG_TRACING_SYSCALL)
 #ifndef DISABLE_SYSCALL_TRACING
 
-#define get_time(dev, data_receive) do { 	sys_port_trace_syscall_enter(K_SYSCALL_GET_TIME, get_time, dev, data_receive); 	get_time(dev, data_receive); 	sys_port_trace_syscall_exit(K_SYSCALL_GET_TIME, get_time, dev, data_receive); } while(false)
+#define get_time(device_tree, data_receive) do { 	sys_port_trace_syscall_enter(K_SYSCALL_GET_TIME, get_time, device_tree, data_receive); 	get_time(device_tree, data_receive); 	sys_port_trace_syscall_exit(K_SYSCALL_GET_TIME, get_time, device_tree, data_receive); } while(false)
 #endif
 #endif
 
 
-extern void z_impl_set_time(const struct device * dev, unsigned char* data_send);
+extern void z_impl_set_time(const struct device * device_tree, unsigned char * data_send);
 
 __pinned_func
-static inline void set_time(const struct device * dev, unsigned char* data_send)
+static inline void set_time(const struct device * device_tree, unsigned char * data_send)
 {
 #ifdef CONFIG_USERSPACE
 	if (z_syscall_trap()) {
-		union { uintptr_t x; const struct device * val; } parm0 = { .val = dev };
-		union { uintptr_t x; unsigned char* val; } parm1 = { .val = data_send };
+		union { uintptr_t x; const struct device * val; } parm0 = { .val = device_tree };
+		union { uintptr_t x; unsigned char * val; } parm1 = { .val = data_send };
 		(void) arch_syscall_invoke2(parm0.x, parm1.x, K_SYSCALL_SET_TIME);
 		return;
 	}
 #endif
 	compiler_barrier();
-	z_impl_set_time(dev, data_send);
+	z_impl_set_time(device_tree, data_send);
 }
 
 #if defined(CONFIG_TRACING_SYSCALL)
 #ifndef DISABLE_SYSCALL_TRACING
 
-#define set_time(dev, data_send) do { 	sys_port_trace_syscall_enter(K_SYSCALL_SET_TIME, set_time, dev, data_send); 	set_time(dev, data_send); 	sys_port_trace_syscall_exit(K_SYSCALL_SET_TIME, set_time, dev, data_send); } while(false)
+#define set_time(device_tree, data_send) do { 	sys_port_trace_syscall_enter(K_SYSCALL_SET_TIME, set_time, device_tree, data_send); 	set_time(device_tree, data_send); 	sys_port_trace_syscall_exit(K_SYSCALL_SET_TIME, set_time, device_tree, data_send); } while(false)
 #endif
 #endif
 

@@ -3914,7 +3914,7 @@
     [
         [
             "void get_time",
-            "const struct device *dev, unsigned char* data_receive"
+            "const struct device *device_tree, unsigned char *data_receive"
         ],
         "ds3231.h",
         true
@@ -3922,7 +3922,7 @@
     [
         [
             "void set_time",
-            "const struct device *dev, unsigned char* data_send"
+            "const struct device *device_tree, unsigned char *data_send"
         ],
         "ds3231.h",
         true
